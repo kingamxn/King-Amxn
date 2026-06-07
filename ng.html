@@ -1,0 +1,1019 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NG Bodycam Commands </title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://cdn.creativefabrica.com/2021/09/18/KA-logo-design-vector-Graphics-17452350-1.jpg" type="image/png">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 50%, #0a1f0a 100%);
+      color: #e0f7ff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ===== BACKGROUND EFFECTS ===== */
+    .camo-overlay {
+      position: fixed;
+      inset: 0;
+      background: 
+        url('https://www.transparenttextures.com/patterns/camo.png') repeat,
+        linear-gradient(135deg, rgba(10, 31, 10, 0.9) 0%, rgba(26, 61, 26, 0.9) 100%);
+      pointer-events: none;
+      z-index: -2;
+      opacity: 0.3;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    .gradient-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      animation: float-orb 20s infinite ease-in-out;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #22c55e, transparent);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #16a34a, transparent);
+      bottom: -150px;
+      right: -150px;
+      animation-delay: -10s;
+    }
+
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #15803d, transparent);
+      top: 50%;
+      right: -175px;
+      animation-delay: -5s;
+    }
+
+    @keyframes float-orb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-30px, 30px) scale(0.9); }
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: rgba(34, 197, 94, 0.1);
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-button:hover {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: #22c55e;
+      transform: translateX(-5px);
+      box-shadow: 0 6px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .logo-wrapper {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .logo-wrapper img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      border-radius: 15px;
+      filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.5));
+      animation: logo-pulse 3s ease-in-out infinite;
+      background: rgba(34, 197, 94, 0.1);
+      padding: 15px;
+    }
+
+    @keyframes logo-pulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.5));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.8));
+        transform: scale(1.05);
+      }
+    }
+
+    .logo-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -15px;
+      border: 2px solid rgba(34, 197, 94, 0.2);
+      border-radius: 20px;
+      animation: rotate-border 10s linear infinite;
+    }
+
+    @keyframes rotate-border {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      background: linear-gradient(180deg, #ffffff 0%, #86efac 50%, #22c55e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 25px rgba(34, 197, 94, 0.4));
+    }
+
+    .creator-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: rgba(34, 197, 94, 0.8);
+      letter-spacing: 0.1em;
+      padding: 10px 20px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 8px;
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.05);
+      backdrop-filter: blur(5px);
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      margin-bottom: 50px;
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.2s; }
+    .section:nth-child(3) { animation-delay: 0.3s; }
+    .section:nth-child(4) { animation-delay: 0.4s; }
+    .section:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+      position: relative;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, #22c55e, transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(0); opacity: 0.5; }
+      50% { transform: translateX(200px); opacity: 1; }
+    }
+
+    .section-icon {
+      font-size: 2rem;
+      filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.5));
+    }
+
+    .section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #86efac;
+      margin: 0;
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: linear-gradient(135deg, rgba(26, 31, 43, 0.6), rgba(20, 25, 40, 0.6));
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 16px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .card:hover {
+      border-color: rgba(34, 197, 94, 0.4);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(34, 197, 94, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      color: #bbf7d0;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3::before {
+      content: '▸';
+      color: #22c55e;
+      font-size: 1.5rem;
+    }
+
+    /* ===== COMMAND LINES ===== */
+    .command-line {
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(16, 20, 28, 0.8), rgba(10, 14, 20, 0.8));
+      border-left: 4px solid #16a34a;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      border-radius: 10px;
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .command-line::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #86efac, #16a34a);
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+    }
+
+    .command-line:hover {
+      background: linear-gradient(135deg, rgba(20, 25, 35, 0.9), rgba(15, 18, 28, 0.9));
+      border-left-color: #22c55e;
+      transform: translateX(5px);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        -5px 0 20px rgba(34, 197, 94, 0.2);
+    }
+
+    .command-text {
+      flex: 1;
+      color: #ddd;
+      line-height: 1.5;
+      user-select: all;
+    }
+
+    /* ===== COPY BUTTON ===== */
+    .copy-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 15px rgba(21, 128, 61, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .copy-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(135deg, #15803d, #14532d);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(21, 128, 61, 0.5);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(21, 128, 61, 0.3);
+    }
+
+    .copy-btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .copy-btn.copied {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 80px 15px 40px;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      .section h2 {
+        font-size: 1.5rem;
+      }
+
+      .command-line {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .copy-btn {
+        width: 100%;
+      }
+
+      .back-button {
+        top: 15px;
+        left: 15px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+
+      .logo-wrapper img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 14, 26, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #16a34a, #15803d);
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #22c55e, #16a34a);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <div class="camo-overlay"></div>
+  <div class="grid-overlay"></div>
+  <div class="gradient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-button">
+    <span>←</span>
+    <span>BACK TO HUB</span>
+  </a>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <div class="logo-wrapper">
+        <img 
+          src="https://res.cloudinary.com/teepublic/image/private/s--n2aPld-Y--/t_Preview/b_rgb:484849,c_limit,f_auto,h_630,q_90,w_630/v1545160448/production/designs/3769733_0.jpg" 
+          alt="National Guard Logo"
+          onerror="this.src='https://via.placeholder.com/140/22c55e/ffffff?text=NG'">
+      </div>
+      <h1>NG BODYCAM COMMANDS</h1>
+      <div class="creator-tag">
+        // Made By King Amxn (Aman Paliya) //
+      </div>
+    </header>
+
+    <!-- Section: Attaching Bodycam -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📹</span>
+        <h2>Attaching Bodycam</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Attaching Bodycam</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me Takes out bodycam, attaches it to chest, checks its ballistic, water proof</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me makes sure it is recording and checks for the red light</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/do It is recording, is ballistic and water proof</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me connects PDA to the nearest cell tower</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Refreshing Bodycam -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🔄</span>
+        <h2>Refreshing Bodycam</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Refreshing Bodycam</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me refreshing bodycam</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/do It is recording</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Saving Bodycam -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">💾</span>
+        <h2>Saving Bodycam</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Saving Bodycam</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me saves bodycam, uploads it to the NG Cloud and continues recording</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/do It is recording</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Breaking the Trunk -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🚗</span>
+        <h2>Breaking the Trunk</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Breaking the Trunk</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me carefully inspects the trunk and uses a crowbar to attempt opening it</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me applies pressure with the crowbar to force the trunk open</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Handing Footage -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">⚖️</span>
+        <h2>Handing Footage to the Lawyer</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Handing Footage to the Lawyer</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me saves bodycam contents onto an SD card and uploads contents to NG servers</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me Takes SD card out of the bodycam and hands it to the lawyer</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Finishing Shift -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🏁</span>
+        <h2>Finishing Your Shift</h2>
+      </div>
+      
+      <div class="card">
+        <h3>Finishing Your Shift</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me saves bodycam contents onto an SD card and uploads contents to NG servers</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">/me puts the badge in the locker</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Department Messages -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📡</span>
+        <h2>Department Messages</h2>
+      </div>
+
+      <!-- NG to DOJ -->
+      <div class="card">
+        <h3>⚖️ NG to DOJ</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: How copy?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: We have a 10-15 at DOC requesting a lawyer. Are there any available?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to DOJ: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to Government -->
+      <div class="card">
+        <h3>🏛️ NG to Government</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: How copy?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Agents enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Can we have a quick meeting at capitol?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: Requesting permission to land on your lawn.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: We have one of your units in custody, could you 10-17 to DOC?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GOV: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to FIB -->
+      <div class="card">
+        <h3>🎯 NG to FIB</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: How copy?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Can we have a quick meeting at your HQ?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Requesting permission to land at your helipad.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: We are entering your jurisdiction in chase of a car hijacker, help would be appreciated.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: We have one of your units in custody, could you 10-17 to DOC?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: We're currently enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to FIB: Permission Granted!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG To FIB: We have a 10-15 at Our Main Barricks Please send a unit to process him.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to LSPD -->
+      <div class="card">
+        <h3>👮 NG to LSPD</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: How copy?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Can we have a quick meeting at your main barracks?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Requesting permission to land at your main barracks.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: We have one of your soldiers in custody, could you 10-17 to DOC?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: We're currently enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: Permission Granted!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to LSPD: We have a 10-15 at Our Main Barricks Please send a unit to process him.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to SAHP -->
+      <div class="card">
+        <h3>🚓 NG to SAHP</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Can we have a quick meeting at your hall?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Requesting permission to land at your helipad.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: We have one of your agents in custody, could you 10-17 to DOC?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: We're currently enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Troopers enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: Permission Granted!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to SAHP: We have a 10-15 at Our Main Barricks Please send a unit to process him.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to EMS -->
+      <div class="card">
+        <h3>🚑 NG to EMS</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: How copy?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Good copy, send traffic!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Bad copy!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Bad copy, we're currently in a situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Ghetto is off limits for the next 25 minutes, please inform all your units.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Can we have a quick meeting at Pillbox Hospital?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Requesting permission to land at your helipad.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: We have one of your employees in custody, could you 10-17 to DOC?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: We're currently enroute!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Clean!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: 10-4, much appreciated!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to EMS: Permission Granted!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+
+      <!-- NG to GLOBAL -->
+      <div class="card">
+        <h3>🚨 NG to GLOBAL</h3>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to GLOBAL: What's the situation?</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: Global is for heavy 10-10s, send all available units!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: Soldiers is getting robbed at global, send all available units!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: Global is for a hood watch, send all available units!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: Global is for a checkpoint, everyone is invited!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: Be on standby for a possible hostage situation!</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+        <div class="command-line" onclick="copyLine(this.querySelector('.copy-btn'))">
+          <span class="command-text">NG to ALL: The Global is 10-99.</span>
+          <button class="copy-btn" onclick="copyLine(this); event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Copy function with visual feedback
+    function copyLine(button) {
+      const commandText = button.previousElementSibling.innerText;
+      
+      navigator.clipboard.writeText(commandText).then(() => {
+        const originalText = button.innerText;
+        button.innerText = "✓ COPIED!";
+        button.classList.add('copied');
+        
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.classList.remove('copied');
+        }, 1500);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        button.innerText = "ERROR";
+        setTimeout(() => {
+          button.innerText = "COPY";
+        }, 1500);
+      });
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        window.location.href = '/';
+      }
+    });
+
+    document.addEventListener("contextmenu", function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener("keydown", function(e) {
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === "U")
+    ) {
+        e.preventDefault();
+    }
+});
+
+  </script>
+
+</body>
+</html>
